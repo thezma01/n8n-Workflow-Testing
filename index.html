@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To Do List</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #todo-list { list-style: none; padding: 0; }
+        #todo-list li { padding: 5px; border-bottom: 1px solid #ccc; }
+        #todo-list li:last-child { border-bottom: none; }
+    </style>
+</head>
+<body>
+    <h1>Simple To Do List</h1>
+    <input type="text" id="task" placeholder="Enter a task">
+    <button onclick="addTask()">Add Task</button>
+    <ul id="todo-list"></ul>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('task');
+            const task = taskInput.value;
+            if (task !== '') {
+                const todoList = document.getElementById('todo-list');
+                const newTask = document.createElement('li');
+                newTask.textContent = task;
+                todoList.appendChild(newTask);
+                taskInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
