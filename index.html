@@ -4,18 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple To Do List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
     <style>
-        body { font-family: Arial, sans-serif; }
-        #todo-list { list-style: none; padding: 0; }
-        #todo-list li { padding: 5px; border-bottom: 1px solid #ccc; }
-        #todo-list li:last-child { border-bottom: none; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar li {
+            margin-right: 20px;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .todo-list {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .todo-list ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .todo-list li {
+            background-color: #fff;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-list li:last-child {
+            border-bottom: none;
+        }
+        .todo-list li:hover {
+            background-color: #f2f2f2;
+        }
+        .todo-list li.completed {
+            text-decoration: line-through;
+            background-color: #dfd;
+        }
+        .edit-btn, .delete-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .edit-btn:hover, .delete-btn:hover {
+            background-color: #3e8e41;
+        }
+        @media only screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navbar li {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Simple To Do List</h1>
-    <input type="text" id="task" placeholder="Enter a task">
-    <button onclick="addTask()">Add Task</button>
-    <ul id="todo-list"></ul>
+    <nav class="navbar">
+        <h1>Simple To Do List</h1>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+        <div>
+            <button class="edit-btn">Edit</button>
+            <button class="delete-btn">Delete</button>
+        </div>
+    </nav>
+    <div class="todo-list">
+        <input type="text" id="task" placeholder="Enter a task">
+        <button onclick="addTask()">Add Task</button>
+        <ul id="todo-list"></ul>
+    </div>
 
     <script>
         function addTask() {
@@ -25,8 +118,33 @@
                 const todoList = document.getElementById('todo-list');
                 const newTask = document.createElement('li');
                 newTask.textContent = task;
+                newTask.innerHTML += '<button class="edit-btn" onclick="editTask(this)">Edit</button>';
+                newTask.innerHTML += '<button class="delete-btn" onclick="deleteTask(this)">Delete</button>';
+                newTask.innerHTML += '<input type="checkbox" onclick="completeTask(this)">';
                 todoList.appendChild(newTask);
                 taskInput.value = '';
+            }
+        }
+
+        function editTask(btn) {
+            const task = btn.parentNode;
+            const newTask = prompt("Enter new task:", task.textContent);
+            if (newTask !== null) {
+                task.textContent = newTask;
+            }
+        }
+
+        function deleteTask(btn) {
+            const task = btn.parentNode;
+            task.remove();
+        }
+
+        function completeTask(checkbox) {
+            const task = checkbox.parentNode;
+            if (checkbox.checked) {
+                task.classList.add('completed');
+            } else {
+                task.classList.remove('completed');
             }
         }
     </script>
